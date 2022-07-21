@@ -23,13 +23,15 @@ class TransactionChecker {
     if (block != null && block.transactions != null) {
       for (let txHash of block.transactions) {
         let tx = await this.web3.eth.getTransaction(txHash);
+        let balance = await this.web3.eth.getBalance(this.account);
         if (this.account == tx?.to?.toLowerCase()) {
           console.log("Transaction found on block: " + number);
-          console.log({
+          console.log("New Transaction = ", {
             address: tx.from,
             value: this.web3.utils.fromWei(tx.value, "ether"),
             timestamp: new Date(),
           });
+          console.log(`Available Balance = ${this.web3.utils.fromWei(balance, "ether")}`);
         }
       }
     }
